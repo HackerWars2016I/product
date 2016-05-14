@@ -70,6 +70,21 @@ $ ->
       scene.add(particle)
     render()
 
+  registerStar = (pos)->
+    for index in [0...length] 
+      p_material = new THREE.MeshBasicMaterial(
+        map:textures[Math.floor( Math.random() * promiseArray.length )]
+        overdraw:true
+      )
+      p_geometry = new THREE.SphereGeometry(2, 20, 20)
+      
+      particle = new THREE.Mesh(p_geometry,p_material)
+      px = Math.random() * 1000 - 500
+      py = Math.random() * 1000 - 500
+      pz = Math.random() * 1000 - 500
+      particle.position.set( px, py, pz)
+      scene.add(particle)
+    render()
 
 
 
