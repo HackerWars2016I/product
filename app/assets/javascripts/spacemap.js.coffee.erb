@@ -11,8 +11,7 @@ $ ->
     x:0
     y:0
   targetList = []
-
-
+  
   window.onmousedown = (event)->
     event.target == renderer.domElement
     rect = event.target.getBoundingClientRect()
@@ -32,12 +31,16 @@ $ ->
   render = () ->
     registerStar()
     loader = new THREE.JSONLoader()
-    loader.load('assets/viper.json', (geometry, materials) ->
+    loader.load('assets/pod.json', (geometry, materials) ->
       # for i in [0..materials.length]
       #   materials[i].morphTargets = true
-      mesh = new THREE.Mesh(geometry, new THREE.MeshBasicMaterial())
-      mesh.position.set(0, -200, 0)
-      mesh.scale.set(100, 100, 100)
+      material = new THREE.MeshFaceMaterial(materials)
+      mesh = new THREE.Mesh(geometry, material)
+      # for i in [0..materials.length]
+      #   materials[i].ambient = materials[i].color;
+      #   materials[i].side = 2;
+      mesh.castShadow = true  # shadow
+      mesh.scale.set 100, 100, 100
       scene.add(mesh)
       looper()
       )
@@ -50,6 +53,10 @@ $ ->
   container = document.getElementById( 'container' )
   container.appendChild( renderer.domElement )
   scene = new THREE.Scene()
+  light = new THREE.DirectionalLight 0xffffff, 1
+  light.castShadow = true # shadow
+  light.position.set 0,100,30
+  scene.add light
 
   length = 1000;
   
