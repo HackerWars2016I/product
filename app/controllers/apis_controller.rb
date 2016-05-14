@@ -9,6 +9,25 @@ require 'nokogiri'
 
 class ApisController < ApplicationController
   def index
+
+    ary = []
+    if not params[:url].nil?
+      charset = nil
+      html = open(URI.escape(params[:url])) do |f|
+        charset = f.charset # 文字種別を取得
+        f.read # htmlを読み込んで変数htmlに渡す
+      end
+
+      # htmlをパース(解析)してオブジェクトを生成
+      doc = Nokogiri::HTML.parse(html, nil, charset)
+      table = doc.xpath("//div[@class='mdMTMWidget01Content01 MdCF']")
+      for i in 0..table.length-1 do
+        ary.push(table[i].inner_html)
+      end
+      render :json => ary
+      return
+    end
+
     url = URI.escape('http://matome.naver.jp/search?q=' + params[:key])
 
     charset = nil
@@ -20,7 +39,6 @@ class ApisController < ApplicationController
     # htmlをパース(解析)してオブジェクトを生成
     doc = Nokogiri::HTML.parse(html, nil, charset)
 
-    ary = []
     for i in 0..doc.xpath("//h3").length-1 do
       ary.push({
         "title"   => doc.xpath("//h3")[i].inner_text,
