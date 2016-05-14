@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  post: MyString
+  fav: 1
+  RT: 1
+
+two:
+  post: MyString
+  fav: 1
+  RT: 1
