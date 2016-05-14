@@ -20,19 +20,32 @@ ActiveRecord::Schema.define(version: 20160514073437) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "mocks", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "nevers", force: :cascade do |t|
     t.string   "post"
+    t.string   "url"
+    t.string   "src"
     t.integer  "fav"
     t.integer  "view"
-    t.date     "date"
+    t.integer  "pos_x"
+    t.integer  "pos_y"
+    t.integer  "pos_z"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
   create_table "twitters", force: :cascade do |t|
-    t.string   "post"
+    t.text     "post"
+    t.string   "user"
     t.integer  "fav"
-    t.integer  "RT"
+    t.integer  "rt"
+    t.integer  "pos_x"
+    t.integer  "pos_y"
+    t.integer  "pos_z"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.date     "date"
