@@ -1,5 +1,7 @@
 require 'twitter'
  
+# bundle exec rake twitter:tweet["ポケモン"] 
+# 上記の命令で " ポケモン " を検索します
 namespace :twitter do
   desc "tweet hello"
   task :tweet, [:option] => [:environment] do |t, args|
