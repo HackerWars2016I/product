@@ -41,13 +41,15 @@ ActiveRecord::Schema.define(version: 20160514192938) do
   create_table "tweets", force: :cascade do |t|
     t.text     "post"
     t.string   "user"
+    t.string   "screen_name"
+    t.string   "icon"
     t.integer  "fav"
     t.integer  "rt"
     t.integer  "pos_x"
     t.integer  "pos_y"
     t.integer  "pos_z"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
   end
 
   create_table "twitters", force: :cascade do |t|
