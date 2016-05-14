@@ -50,6 +50,7 @@ class ApisController < ApplicationController
       item.fav    = doc.xpath("//span[@class='mdSocialCountList01Num']")[i*2].inner_text
       item.view   = doc.xpath("//span[@class='mdSocialCountList01Num']")[i*2+1].inner_text
       item.url    = doc.xpath("//h3[@class='mdMTMTtlList03Ttl']")[i].inner_html.split("\"")[1]
+      ary.push(item)
       item.save
     end
     # タイトルを表示
