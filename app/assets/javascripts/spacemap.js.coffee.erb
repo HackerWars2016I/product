@@ -1,6 +1,22 @@
 $ ->
   camera = new THREE.PerspectiveCamera( 75, window.innerWidth/window.innerHeight, 0.1, 1000 );
 
+  flag = false
+  showPopUp = (vec)->
+    swal(
+      title: "Error!"
+      text: "Here's my error message!"
+      type: "error"
+      confirmButtonText: "Cool"
+      )
+
+    # pMENU.style.left = x
+    # pMENU.style.top  = y
+    # if (flag) 
+    #   pMENU.style.visibility = "hidden"
+    # else 
+    #   pMENU.style.visibility = "visible"
+
   renderer = new THREE.WebGLRenderer();
   width = $( window ).width()
   height = $( window ).height()
@@ -23,8 +39,9 @@ $ ->
     projector.unprojectVector( vector, camera )
     ray = new THREE.Raycaster( camera.position, vector.sub( camera.position ).normalize() )
     obj = ray.intersectObjects( targetList )
-    if obj.length > 0                        
-      alert("click!!")
+    if obj.length > 0
+      showPopUp(obj.point)                      
+      # alert("click!!")
   # directionalLight = new THREE.DirectionalLight( 0xffffff, 0.2 )
   # directionalLight.position.set( 100, 300, 100 )
   controls = new THREE.OrbitControls(camera,renderer.domElement)
@@ -147,7 +164,7 @@ $ ->
 
   textures = []
   makeParticles()
-  for value in promiseArray.concat(afterArray)
+  for value in promiseArray.concat(afterArray).concat(['assets/popup.png'])
     loader.load(value,(sprite)->  
       textures.push sprite
 
