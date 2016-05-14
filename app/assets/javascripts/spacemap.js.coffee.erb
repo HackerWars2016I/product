@@ -2,15 +2,18 @@ $ ->
   camera = new THREE.PerspectiveCamera( 75, window.innerWidth/window.innerHeight, 0.1, 1000 );
 
   renderer = new THREE.WebGLRenderer();
-  renderer.setSize( window.innerWidth, window.innerHeight )
-
+  renderer.setSize( $( window ).width(), $( window ).height() )
   camera.position.z = 5
 
+  # directionalLight = new THREE.DirectionalLight( 0xffffff, 0.2 )
+  # directionalLight.position.set( 100, 300, 100 )
+  controls = new THREE.OrbitControls(camera,renderer.domElement)
   render = () ->
     # requestAnimationFrame( render )
       # cube.rotation.x += 0.1;
       # cube.rotation.y += 0.1;
-    renderer.render(scene, camera)
+    looper()
+    # controls.update()
 
   container = document.getElementById( 'container' )
   container.appendChild( renderer.domElement )
@@ -18,27 +21,77 @@ $ ->
 
   length = 1000;
   
-  p_geometry = new THREE.Geometry()
 
-  for index in [0...length] 
-    vertex = new THREE.Vector3()
-    vertex.x=200*Math.random() - 100
-    vertex.y=200*Math.random() - 100
-    vertex.z=200*Math.random() - 100
-    p_geometry.vertices.push(vertex)
 
-  loader = new THREE.TextureLoader()
-  sprite = loader.load('assets/Circle.png',(sprite)->
-    p_material = new THREE.PointsMaterial(
-      size:20
-      map:sprite
-      color:0xffffff
-      transparent:true
+  makeParticles= ()->       
+    particleCount = 10000;
+    particles = new THREE.Geometry();
+    material = new THREE.PointsMaterial(
+        color: 0xFFFFFF
+        size: 0.1
+        # map: texture,
+        transparent: true
     )
-    p_material.color.setRGB(1.0 , 1.0 , 1.0  )
-    particle = new THREE.Points(p_geometry,p_material)
-    scene.add(particle)
+    for i in [0...length] 
+      px = Math.random() * 1000 - 500
+      py = Math.random() * 1000 - 500
+      pz = Math.random() * 1000 - 500
+      particle = new THREE.Vector3( px, py, pz)
+
+      particle.velocity = new THREE.Vector3( 0, -Math.random(), 0 )
+      particles.vertices.push( particle )
+      pointCloud = new THREE.Points( particles, material )
+      pointCloud.sortParticles = true
+      scene.add( pointCloud )
+  
+  looper = ()->  
+    requestAnimationFrame(looper)
+    controls.update()
+    renderer.clear()   
+    renderer.render(scene, camera)
+    
+
+
+  promiseArray = ['assets/blue.png','assets/green.png','assets/red.png','assets/yellow.png']
+  textureManager = new THREE.LoadingManager()
+  textureManager.onLoad = ()->
+    for index in [0...length] 
+      p_material = new THREE.MeshBasicMaterial(
+        map:textures[Math.floor( Math.random() * promiseArray.length )]
+        overdraw:true
+      )
+      p_geometry = new THREE.SphereGeometry(2, 20, 20)
+      
+      particle = new THREE.Mesh(p_geometry,p_material)
+      px = Math.random() * 1000 - 500
+      py = Math.random() * 1000 - 500
+      pz = Math.random() * 1000 - 500
+      particle.position.set( px, py, pz)
+      scene.add(particle)
     render()
+
+
+
+
+
+
+  loader = new THREE.TextureLoader(textureManager)
+
+
+  textures = []
+  makeParticles()
+  for value in promiseArray 
+    loader.load(value,(sprite)->  
+      textures.push sprite
+
+    #   vertex = new THREE.Vector3()
+    #   vertex.x=200*Math.random() - 100
+    #   vertex.y=200*Math.random() - 100
+    #   vertex.z=200*Math.random() - 100
+    #   p_geometry.vertices.push(vertex)
+
+
+    # p_material.color.setRGB(1.0 , 1.0 , 1.0  )
     )
   
 
