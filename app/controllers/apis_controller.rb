@@ -25,9 +25,9 @@ class ApisController < ApplicationController
       ary.push({
         "title"   => doc.xpath("//h3")[i].inner_text,
         "picture" => URI.unescape(doc.xpath("//img")[i]["src"]).split(/[=&]/)[1],
-        "star"    => doc.xpath("//li[@class='mdSocialCountList01Li mdSocialCountList01FV']")[i].inner_text,
-        "view"    => doc.xpath("//li[@class='mdSocialCountList01Li mdSocialCountList01View']")[i].inner_text,
-        "index"   => i,
+        "star"    => doc.xpath("//span[@class='mdSocialCountList01Num']")[i*2].inner_text,
+        "view"    => doc.xpath("//span[@class='mdSocialCountList01Num']")[i*2+1].inner_text,
+        "link"    => doc.xpath("//h3[@class='mdMTMTtlList03Ttl']")[i].inner_html.split("\"")[1]
       })
     end
     # タイトルを表示
