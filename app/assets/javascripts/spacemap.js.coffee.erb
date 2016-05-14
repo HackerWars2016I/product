@@ -23,8 +23,8 @@ $ ->
     projector.unprojectVector( vector, camera )
     ray = new THREE.Raycaster( camera.position, vector.sub( camera.position ).normalize() )
     obj = ray.intersectObjects( targetList )
-    # if obj.length > 0                        
-    #   alert("click!!")
+    if obj.length > 0                        
+      alert("click!!")
   # directionalLight = new THREE.DirectionalLight( 0xffffff, 0.2 )
   # directionalLight.position.set( 100, 300, 100 )
   controls = new THREE.OrbitControls(camera,renderer.domElement)
@@ -41,6 +41,10 @@ $ ->
       #   materials[i].side = 2;
       mesh.castShadow = true  # shadow
       mesh.scale.set 100, 100, 100
+      controls._target = mesh
+      # controls._pos = new THREE.Vector3(camera.position.x,camera.position.y,camera.position.z) 
+      camera.position.set(mesh.position.x-180,mesh.position.y+60,mesh.position.z)
+      camera.lookAt(mesh.position)
       scene.add(mesh)
       looper()
       )
@@ -62,7 +66,7 @@ $ ->
   
 
 
-  makeParticles= ()->       
+  makeParticles = ()->       
     particleCount = 10000;
     particles = new THREE.Geometry();
     material = new THREE.PointsMaterial(
@@ -85,7 +89,13 @@ $ ->
   
   looper = ()->  
     requestAnimationFrame(looper)
+    vector = camera.position
     controls.update()
+    # controls._target.position.add(camera.position.sub(vector))
+    # debugger;
+    # pos = new THREE.Vector3(camera.position.x-controls._pos.x,camera.position.y-controls._pos.y,camera.position.z-controls._pos.z)
+    # controls.target.position.set(controls.target.x+pos.x,controls.target.y+pos.y,controls.target.z+pos.z)
+    # controls._pos =  new THREE.Vector3(camera.position.x,camera.position.y,camera.position.z) 
     renderer.clear()   
     renderer.render(scene, camera)
     
