@@ -22,7 +22,11 @@ class ApisController < ApplicationController
       doc = Nokogiri::HTML.parse(html, nil, charset)
       table = doc.xpath("//div[@class='mdMTMWidget01Content01 MdCF']")
       for i in 0..table.length-1 do
-        ary.push(table[i].inner_html)
+        ary.push({
+          "content"  => table[i].inner_html,
+          "id"       => URI.escape(params[:url]).split("/")[4],
+          "index"    => i
+        })
       end
       render :json => ary
       return
