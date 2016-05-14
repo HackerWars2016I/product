@@ -440,6 +440,12 @@
 
 		};
 
+		this.goTo =function( vector ) {
+    // Cloning given vector since it would be modified otherwise
+      vect =vector.clone().sub( this.target )
+      pan(vect.x,vect.y);
+    }
+
 		function getAutoRotationAngle() {
 
 			return 2 * Math.PI / 60 / 60 * scope.autoRotateSpeed;
@@ -678,6 +684,8 @@
 			if ( state !== STATE.NONE ) scope.dispatchEvent( startEvent );
 
 		}
+
+		
 
 		function touchmove( event ) {
 
