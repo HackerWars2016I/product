@@ -9,7 +9,7 @@ require 'nokogiri'
 
 class ApisController < ApplicationController
   def index
-    url = URI.escape('http://matome.naver.jp/search?q=' + "ラーメン")
+    url = URI.escape('http://matome.naver.jp/search?q=' + params[:key])
 
     charset = nil
     html = open(url) do |f|
@@ -27,7 +27,7 @@ class ApisController < ApplicationController
         "picture" => URI.unescape(doc.xpath("//img")[i]["src"]).split(/[=&]/)[1],
         "star"    => doc.xpath("//li[@class='mdSocialCountList01Li mdSocialCountList01FV']")[i].inner_text,
         "view"    => doc.xpath("//li[@class='mdSocialCountList01Li mdSocialCountList01View']")[i].inner_text,
-        "index"   => i
+        "index"   => i,
       })
     end
     # タイトルを表示
