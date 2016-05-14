@@ -3,8 +3,10 @@ $ ->
 
   renderer = new THREE.WebGLRenderer();
   renderer.setSize( window.innerWidth, window.innerHeight )
-
   camera.position.z = 5
+
+  # directionalLight = new THREE.DirectionalLight( 0xffffff, 0.2 )
+  # directionalLight.position.set( 100, 300, 100 )
 
   render = () ->
     # requestAnimationFrame( render )
@@ -18,26 +20,57 @@ $ ->
 
   length = 1000;
   
-  p_geometry = new THREE.Geometry()
 
-  for index in [0...length] 
-    vertex = new THREE.Vector3()
-    vertex.x=200*Math.random() - 100
-    vertex.y=200*Math.random() - 100
-    vertex.z=200*Math.random() - 100
-    p_geometry.vertices.push(vertex)
+
+  # makeParticles= ()->       
+  #   particleCount = 10000;
+  #   particles = new THREE.Geometry();
+  #   material = new THREE.PointCloudMaterial(
+  #       color: 0xFFFFFF
+  #       size: 0.1
+  #       # map: texture,
+  #       transparent: true
+  #   )
+  #   for i in [0...length] 
+  #     px = Math.random() * 1000 - 500
+  #     py = Math.random() * 1000 - 500
+  #     pz = Math.random() * 1000 - 500
+  #     particle = new THREE.Vector3( px, py, pz)
+
+  #     particle.velocity = new THREE.Vector3( 0, -Math.random(), 0 )
+  #     particles.vertices.push( particle )
+  #     pointCloud = new THREE.PointCloud( particles, material )
+  #     pointCloud.sortParticles = true
+  #     scene.add( pointCloud )
+    
+
 
   loader = new THREE.TextureLoader()
-  sprite = loader.load('assets/Circle.png',(sprite)->
-    p_material = new THREE.PointsMaterial(
-      size:20
+  sprite = loader.load('assets/blue.png',(sprite)->
+    
+    p_material = new THREE.MeshBasicMaterial(
       map:sprite
-      color:0xffffff
-      transparent:true
+      overdraw:true
     )
-    p_material.color.setRGB(1.0 , 1.0 , 1.0  )
-    particle = new THREE.Points(p_geometry,p_material)
-    scene.add(particle)
+    
+    for index in [0...length] 
+      p_geometry = new THREE.SphereGeometry(2, 20, 20)
+      
+      particle = new THREE.Mesh(p_geometry,p_material)
+      px = Math.random() * 1000 - 500
+      py = Math.random() * 1000 - 500
+      pz = Math.random() * 1000 - 500
+      particle.position.set( px, py, pz)
+      scene.add(particle)
+    #   vertex = new THREE.Vector3()
+    #   vertex.x=200*Math.random() - 100
+    #   vertex.y=200*Math.random() - 100
+    #   vertex.z=200*Math.random() - 100
+    #   p_geometry.vertices.push(vertex)
+
+
+    # p_material.color.setRGB(1.0 , 1.0 , 1.0  )
+    
     render()
     )
   
