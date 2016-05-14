@@ -24,8 +24,8 @@ $ ->
     projector.unprojectVector( vector, camera )
     ray = new THREE.Raycaster( camera.position, vector.sub( camera.position ).normalize() )
     obj = ray.intersectObjects( targetList )
-    if obj.length > 0                        
-      alert("click!!")
+    # if obj.length > 0                        
+    #   alert("click!!")
   # directionalLight = new THREE.DirectionalLight( 0xffffff, 0.2 )
   # directionalLight.position.set( 100, 300, 100 )
   controls = new THREE.OrbitControls(camera,renderer.domElement)
