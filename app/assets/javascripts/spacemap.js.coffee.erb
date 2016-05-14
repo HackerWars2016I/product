@@ -31,17 +31,16 @@ $ ->
   controls = new THREE.OrbitControls(camera,renderer.domElement)
   render = () ->
     registerStar()
-    svgManager = new THREE.SVGLoader()
-    svgManager.load("assets/ship.svg",(svg)->
-      ship = new THREE.SVGObject(svg)
-      px = 0
-      py = 0
-      pz = 
-      ship.position.set( px, py, pz)
-      scene.add(ship)
+    loader = new THREE.JSONLoader()
+    loader.load('assets/viper.json', (geometry, materials) ->
+      # for i in [0..materials.length]
+      #   materials[i].morphTargets = true
+      mesh = new THREE.Mesh(geometry, new THREE.MeshBasicMaterial())
+      mesh.position.set(0, -200, 0)
+      mesh.scale.set(100, 100, 100)
+      scene.add(mesh)
       looper()
-    )
-    # looper()
+      )
     # requestAnimationFrame( render )
       # cube.rotation.x += 0.1;
       # cube.rotation.y += 0.1;
