@@ -2,13 +2,35 @@ $ ->
   camera = new THREE.PerspectiveCamera( 75, window.innerWidth/window.innerHeight, 0.1, 1000 );
 
   renderer = new THREE.WebGLRenderer();
-  renderer.setSize( $( window ).width(), $( window ).height() )
+  width = $( window ).width()
+  height = $( window ).height()
+  renderer.setSize(width , height)
   camera.position.z = 5
+  projector = new THREE.Projector()
+  mouse = 
+    x:0
+    y:0
+  targetList = []
 
+
+  window.onmousedown = (event)->
+    event.target == renderer.domElement
+    rect = event.target.getBoundingClientRect()
+    mouse.x =  event.clientX - rect.left
+    mouse.y =  event.clientY - rect.top
+    mouse.x =  (mouse.x / width) * 2 - 1;           
+    mouse.y = -(mouse.y / height) * 2 + 1;
+    vector = new THREE.Vector3( mouse.x, mouse.y ,1)
+    projector.unprojectVector( vector, camera )
+    ray = new THREE.Raycaster( camera.position, vector.sub( camera.position ).normalize() )
+    obj = ray.intersectObjects( targetList )
+    if obj.length > 0                        
+      alert("click!!")
   # directionalLight = new THREE.DirectionalLight( 0xffffff, 0.2 )
   # directionalLight.position.set( 100, 300, 100 )
   controls = new THREE.OrbitControls(camera,renderer.domElement)
   render = () ->
+    registerStar()
     # requestAnimationFrame( render )
       # cube.rotation.x += 0.1;
       # cube.rotation.y += 0.1;
@@ -52,7 +74,9 @@ $ ->
     
 
 
-  promiseArray = ['assets/blue.png','assets/green.png','assets/red.png','assets/yellow.png']
+  promiseArray = ['assets/blue.png','assets/green.png','assets/red.png','assets/yellow.png','assets/orange.png','assets/pink.png','assets/deepblue.png','assets/violet.png','assets/emerald.png']
+  afterArray = ['assets/chaos.png','assets/chaos2.png','assets/chaos3.png','assets/chaos4.png']
+
   textureManager = new THREE.LoadingManager()
   textureManager.onLoad = ()->
     for index in [0...length] 
@@ -70,6 +94,21 @@ $ ->
       scene.add(particle)
     render()
 
+  registerStar = ()->
+    for index in [0...140] 
+      p_material = new THREE.MeshBasicMaterial(
+        map:textures[Math.floor( Math.random() * afterArray.length) + promiseArray.length]
+        overdraw:true
+      )
+      p_geometry = new THREE.SphereGeometry(15, 20, 20)
+      
+      particle = new THREE.Mesh(p_geometry,p_material)
+      px = Math.random() * 1000 - 500
+      py = Math.random() * 1000 - 500
+      pz = Math.random() * 1000 - 500
+      particle.position.set( px, py, pz)
+      scene.add(particle)
+      targetList.push particle
 
 
 
@@ -80,7 +119,7 @@ $ ->
 
   textures = []
   makeParticles()
-  for value in promiseArray 
+  for value in promiseArray.concat(afterArray)
     loader.load(value,(sprite)->  
       textures.push sprite
 
