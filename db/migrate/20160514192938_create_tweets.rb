@@ -3,6 +3,8 @@ class CreateTweets < ActiveRecord::Migration
     create_table :tweets do |t|
       t.text :post
       t.string :user
+      t.string :screen_name
+      t.string :icon
       t.integer :fav
       t.integer :rt
       t.integer :pos_x
