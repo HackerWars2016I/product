@@ -29,6 +29,7 @@ ActiveRecord::Schema.define(version: 20160514192939) do
     t.string   "post"
     t.string   "url"
     t.string   "src"
+    t.string   "user"
     t.integer  "fav"
     t.integer  "view"
     t.integer  "pos_x"

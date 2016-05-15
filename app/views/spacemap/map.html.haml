@@ -3,5 +3,5 @@
   #pMENU(style="visibility:hidden;background-color:yellow;width:100px;")test
 
 :javascript
-  var twitters = #{raw @twitters.to_json};
-  var nevers = #{raw @nevers.to_json};
+  var twitters = #{raw Array(@twitters).to_json};
+  var nevers = #{raw Array(@nevers).to_json};

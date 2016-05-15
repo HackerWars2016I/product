@@ -4,6 +4,7 @@ class CreateNevers < ActiveRecord::Migration
       t.string :post
       t.string :url
       t.string :src
+      t.string  :user
       t.integer :fav
       t.integer :view
       t.integer :pos_x
