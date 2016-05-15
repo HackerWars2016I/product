@@ -4,10 +4,10 @@ $ ->
   flag = false
   showPopUp = (tweet)->
     swal(
-      title: "Error!"
-      text: "Here's my error message!"
-      type: "error"
-      confirmButtonText: "Cool"
+      title: tweet.user || tweet.url
+      text: tweet.post 
+      imageUrl: tweet.icon || tweet.src
+      confirmButtonText: "いいね"
       )
 
     # pMENU.style.left = x
@@ -107,8 +107,8 @@ $ ->
   looper = ()->  
     requestAnimationFrame(looper)
     vector = camera.position
-    controls.update()
-    controls.goTo(controls._target.position)
+    # controls.update()
+    # controls.goTo(controls._target.position)
     # controls._target.position.add(camera.position.sub(vector))
     # debugger;
     # pos = new THREE.Vector3(camera.position.x-controls._pos.x,camera.position.y-controls._pos.y,camera.position.z-controls._pos.z)
@@ -140,7 +140,7 @@ $ ->
     render()
 
   registerStar = ()->
-    for index in [0..window.twitters.length] 
+    for value in window.twitters.concat(nevers)
       p_material = new THREE.MeshBasicMaterial(
         map:textures[Math.floor( Math.random() * afterArray.length) + promiseArray.length]
         overdraw:true
@@ -152,7 +152,7 @@ $ ->
       py = Math.random() * 1000 - 500
       pz = Math.random() * 1000 - 500
       particle.position.set( px, py, pz)
-      particle._src = window.twitters[index]
+      particle._src = value
       scene.add(particle)
       targetList.push particle
 
