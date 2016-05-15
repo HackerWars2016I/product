@@ -1,14 +1,15 @@
 $ ->
-  camera = new THREE.PerspectiveCamera( 75, window.innerWidth/window.innerHeight, 0.1, 1000 );
+  if $('#container')[0]
+    camera = new THREE.PerspectiveCamera( 75, window.innerWidth/window.innerHeight, 0.1, 1000 );
 
-  flag = false
-  showPopUp = (tweet)->
-    swal(
-      title: tweet.user || tweet.url
-      text: tweet.post 
-      imageUrl: tweet.icon || tweet.src
-      confirmButtonText: "いいね"
-      )
+    flag = false
+    showPopUp = (tweet)->
+      swal(
+        title: tweet.user || tweet.url
+        text: tweet.post 
+        imageUrl: tweet.icon || tweet.src
+        confirmButtonText: "いいね"
+        )
 
     # pMENU.style.left = x
     # pMENU.style.top  = y
@@ -17,53 +18,53 @@ $ ->
     # else 
     #   pMENU.style.visibility = "visible"
 
-  renderer = new THREE.WebGLRenderer();
-  width = $( window ).width()
-  height = $( window ).height()
-  renderer.setSize(width , height)
-  camera.position.z = 5
-  projector = new THREE.Projector()
-  mouse = 
-    x:0
-    y:0
-  targetList = []
+    renderer = new THREE.WebGLRenderer();
+    width = $( window ).width()
+    height = $( window ).height()
+    renderer.setSize(width , height)
+    camera.position.z = 5
+    projector = new THREE.Projector()
+    mouse = 
+      x:0
+      y:0
+    targetList = []
   
-  window.onmousedown = (event)->
-    event.target == renderer.domElement
-    rect = event.target.getBoundingClientRect()
-    mouse.x =  event.clientX - rect.left
-    mouse.y =  event.clientY - rect.top
-    mouse.x =  (mouse.x / width) * 2 - 1;           
-    mouse.y = -(mouse.y / height) * 2 + 1;
-    vector = new THREE.Vector3( mouse.x, mouse.y ,1)
-    projector.unprojectVector( vector, camera )
-    ray = new THREE.Raycaster( camera.position, vector.sub( camera.position ).normalize() )
-    obj = ray.intersectObjects( targetList )
-    if obj.length > 0
-      showPopUp(obj[0].object._src)                      
+    window.onmousedown = (event)->
+      event.target == renderer.domElement
+      rect = event.target.getBoundingClientRect()
+      mouse.x =  event.clientX - rect.left
+      mouse.y =  event.clientY - rect.top
+      mouse.x =  (mouse.x / width) * 2 - 1;           
+      mouse.y = -(mouse.y / height) * 2 + 1;
+      vector = new THREE.Vector3( mouse.x, mouse.y ,1)
+      projector.unprojectVector( vector, camera )
+      ray = new THREE.Raycaster( camera.position, vector.sub( camera.position ).normalize() )
+      obj = ray.intersectObjects( targetList )
+      if obj.length > 0
+        showPopUp(obj[0].object._src)                      
       # alert("click!!")
   # directionalLight = new THREE.DirectionalLight( 0xffffff, 0.2 )
   # directionalLight.position.set( 100, 300, 100 )
-  controls = new THREE.OrbitControls(camera,renderer.domElement)
-  render = () ->
-    registerStar()
-    loader = new THREE.JSONLoader()
-    loader.load('assets/pod.json', (geometry, materials) ->
+    controls = new THREE.OrbitControls(camera,renderer.domElement)
+    render = () ->
+      registerStar()
+      loader = new THREE.JSONLoader()
+      loader.load('assets/pod.json', (geometry, materials) ->
       # for i in [0..materials.length]
       #   materials[i].morphTargets = true
-      material = new THREE.MeshFaceMaterial(materials)
-      mesh = new THREE.Mesh(geometry, material)
+        material = new THREE.MeshFaceMaterial(materials)
+        mesh = new THREE.Mesh(geometry, material)
       # for i in [0..materials.length]
       #   materials[i].ambient = materials[i].color;
       #   materials[i].side = 2;
-      mesh.castShadow = true  # shadow
-      mesh.scale.set 100, 100, 100
-      controls._target = mesh
+        mesh.castShadow = true  # shadow
+        mesh.scale.set 100, 100, 100
+        controls._target = mesh
       # controls._pos = new THREE.Vector3(camera.position.x,camera.position.y,camera.position.z) 
-      camera.position.set(mesh.position.x-180,mesh.position.y+60,mesh.position.z)
-      camera.lookAt(mesh.position)
-      scene.add(mesh)
-      looper()
+        camera.position.set(mesh.position.x-180,mesh.position.y+60,mesh.position.z)
+        camera.lookAt(mesh.position)
+        scene.add(mesh)
+        looper()
       )
     # requestAnimationFrame( render )
       # cube.rotation.x += 0.1;
@@ -71,42 +72,42 @@ $ ->
     
     # controls.update()
 
-  container = document.getElementById( 'container' )
-  container.appendChild( renderer.domElement )
-  scene = new THREE.Scene()
-  light = new THREE.DirectionalLight 0xffffff, 1
-  light.castShadow = true # shadow
-  light.position.set 0,100,30
-  scene.add light
+    container = document.getElementById( 'container' )
+    container.appendChild( renderer.domElement )
+    scene = new THREE.Scene()
+    light = new THREE.DirectionalLight 0xffffff, 1
+    light.castShadow = true # shadow
+    light.position.set 0,100,30
+    scene.add light
 
-  length = 1000;
+    length = 1000;
   
 
 
-  makeParticles = ()->       
-    particleCount = 10000;
-    particles = new THREE.Geometry();
-    material = new THREE.PointsMaterial(
-        color: 0xFFFFFF
-        size: 0.1
+    makeParticles = ()->       
+      particleCount = 10000;
+      particles = new THREE.Geometry();
+      material = new THREE.PointsMaterial(
+          color: 0xFFFFFF
+          size: 0.1
         # map: texture,
-        transparent: true
-    )
-    for i in [0...length] 
-      px = Math.random() * 1000 - 500
-      py = Math.random() * 1000 - 500
-      pz = Math.random() * 1000 - 500
-      particle = new THREE.Vector3( px, py, pz)
+          transparent: true
+      )
+      for i in [0...length] 
+        px = Math.random() * 1000 - 500
+        py = Math.random() * 1000 - 500
+        pz = Math.random() * 1000 - 500
+        particle = new THREE.Vector3( px, py, pz)
 
-      particle.velocity = new THREE.Vector3( 0, -Math.random(), 0 )
-      particles.vertices.push( particle )
-      pointCloud = new THREE.Points( particles, material )
-      pointCloud.sortParticles = true
-      scene.add( pointCloud )
+        particle.velocity = new THREE.Vector3( 0, -Math.random(), 0 )
+        particles.vertices.push( particle )
+        pointCloud = new THREE.Points( particles, material )
+        pointCloud.sortParticles = true
+        scene.add( pointCloud )
   
-  looper = ()->  
-    requestAnimationFrame(looper)
-    vector = camera.position
+    looper = ()->  
+      requestAnimationFrame(looper)
+      vector = camera.position
     # controls.update()
     # controls.goTo(controls._target.position)
     # controls._target.position.add(camera.position.sub(vector))
@@ -114,60 +115,60 @@ $ ->
     # pos = new THREE.Vector3(camera.position.x-controls._pos.x,camera.position.y-controls._pos.y,camera.position.z-controls._pos.z)
     # controls.target.position.set(controls.target.x+pos.x,controls.target.y+pos.y,controls.target.z+pos.z)
     # controls._pos =  new THREE.Vector3(camera.position.x,camera.position.y,camera.position.z) 
-    renderer.clear()   
-    renderer.render(scene, camera)
+      renderer.clear()   
+      renderer.render(scene, camera)
     
 
 
-  promiseArray = ['assets/blue.png','assets/green.png','assets/red.png','assets/yellow.png','assets/orange.png','assets/pink.png','assets/deepblue.png','assets/violet.png','assets/emerald.png']
-  afterArray = ['assets/chaos.png','assets/chaos2.png','assets/chaos3.png','assets/chaos4.png']
+    promiseArray = ['assets/blue.png','assets/green.png','assets/red.png','assets/yellow.png','assets/orange.png','assets/pink.png','assets/deepblue.png','assets/violet.png','assets/emerald.png']
+    afterArray = ['assets/chaos.png','assets/chaos2.png','assets/chaos3.png','assets/chaos4.png']
 
-  textureManager = new THREE.LoadingManager()
-  textureManager.onLoad = ()->
-    for index in [0...length] 
-      p_material = new THREE.MeshBasicMaterial(
-        map:textures[Math.floor( Math.random() * promiseArray.length )]
-        overdraw:true
-      )
-      p_geometry = new THREE.SphereGeometry(2, 20, 20)
+    textureManager = new THREE.LoadingManager()
+    textureManager.onLoad = ()->
+      for index in [0...length] 
+        p_material = new THREE.MeshBasicMaterial(
+          map:textures[Math.floor( Math.random() * promiseArray.length )]
+          overdraw:true
+        )
+        p_geometry = new THREE.SphereGeometry(2, 20, 20)
       
-      particle = new THREE.Mesh(p_geometry,p_material)
-      px = Math.random() * 1000 - 500
-      py = Math.random() * 1000 - 500
-      pz = Math.random() * 1000 - 500
-      particle.position.set( px, py, pz)
-      scene.add(particle)
-    render()
+        particle = new THREE.Mesh(p_geometry,p_material)
+        px = Math.random() * 1000 - 500
+        py = Math.random() * 1000 - 500
+        pz = Math.random() * 1000 - 500
+        particle.position.set( px, py, pz)
+        scene.add(particle)
+      render()
 
-  registerStar = ()->
-    for value in window.twitters.concat(nevers)
-      p_material = new THREE.MeshBasicMaterial(
-        map:textures[Math.floor( Math.random() * afterArray.length) + promiseArray.length]
-        overdraw:true
-      )
-      p_geometry = new THREE.SphereGeometry(15, 20, 20)
+    registerStar = ()->
+      for value in window.twitters.concat(nevers)
+        p_material = new THREE.MeshBasicMaterial(
+          map:textures[Math.floor( Math.random() * afterArray.length) + promiseArray.length]
+          overdraw:true
+        )
+        p_geometry = new THREE.SphereGeometry(15, 20, 20)
       
-      particle = new THREE.Mesh(p_geometry,p_material)
-      px = Math.random() * 1000 - 500
-      py = Math.random() * 1000 - 500
-      pz = Math.random() * 1000 - 500
-      particle.position.set( px, py, pz)
-      particle._src = value
-      scene.add(particle)
-      targetList.push particle
+        particle = new THREE.Mesh(p_geometry,p_material)
+        px = Math.random() * 1000 - 500
+        py = Math.random() * 1000 - 500
+        pz = Math.random() * 1000 - 500
+        particle.position.set( px, py, pz)
+        particle._src = value
+        scene.add(particle)
+        targetList.push particle
 
 
 
 
 
-  loader = new THREE.TextureLoader(textureManager)
+    loader = new THREE.TextureLoader(textureManager)
 
 
-  textures = []
-  makeParticles()
-  for value in promiseArray.concat(afterArray).concat(['assets/popup.png'])
-    loader.load(value,(sprite)->  
-      textures.push sprite
+    textures = []
+    makeParticles()
+    for value in promiseArray.concat(afterArray).concat(['assets/popup.png'])
+      loader.load(value,(sprite)->  
+        textures.push sprite
 
     #   vertex = new THREE.Vector3()
     #   vertex.x=200*Math.random() - 100
@@ -177,7 +178,7 @@ $ ->
 
 
     # p_material.color.setRGB(1.0 , 1.0 , 1.0  )
-    )
+      )
   
 
 
