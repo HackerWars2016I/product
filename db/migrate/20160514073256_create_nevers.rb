@@ -4,6 +4,7 @@ class CreateNevers < ActiveRecord::Migration
       t.string :post
       t.string :url
       t.string :src
+      t.string :user
       t.integer :fav
       t.integer :view
       t.integer :pos_x
@@ -11,7 +12,6 @@ class CreateNevers < ActiveRecord::Migration
       t.integer :pos_z      
 
       t.timestamps null: false
-      add_index :nevers, :id
     end
   end
 end
