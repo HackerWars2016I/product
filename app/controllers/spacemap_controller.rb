@@ -1,6 +1,8 @@
 class SpacemapController < ApplicationController
 
-def map
-end
+  def map
+    naver = Never.all.to_json
+
+  end
 
 end

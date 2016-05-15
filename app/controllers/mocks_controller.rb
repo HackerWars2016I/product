@@ -24,7 +24,7 @@ class MocksController < ApplicationController
   # POST /mocks
   # POST /mocks.json
   def create
-    @mock = Mock.new(mock_params)
+    @mock = Mock.new(5000)
 
     respond_to do |format|
       if @mock.save
@@ -40,6 +40,7 @@ class MocksController < ApplicationController
   # PATCH/PUT /mocks/1
   # PATCH/PUT /mocks/1.json
   def update
+
     respond_to do |format|
       if @mock.update(mock_params)
         format.html { redirect_to @mock, notice: 'Mock was successfully updated.' }
