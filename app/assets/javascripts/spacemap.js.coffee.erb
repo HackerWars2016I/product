@@ -2,7 +2,7 @@ $ ->
   camera = new THREE.PerspectiveCamera( 75, window.innerWidth/window.innerHeight, 0.1, 1000 );
 
   flag = false
-  showPopUp = (vec)->
+  showPopUp = (tweet)->
     swal(
       title: "Error!"
       text: "Here's my error message!"
@@ -40,7 +40,7 @@ $ ->
     ray = new THREE.Raycaster( camera.position, vector.sub( camera.position ).normalize() )
     obj = ray.intersectObjects( targetList )
     if obj.length > 0
-      showPopUp(obj.point)                      
+      showPopUp(obj[0].object._src)                      
       # alert("click!!")
   # directionalLight = new THREE.DirectionalLight( 0xffffff, 0.2 )
   # directionalLight.position.set( 100, 300, 100 )
@@ -140,7 +140,7 @@ $ ->
     render()
 
   registerStar = ()->
-    for index in [0...140] 
+    for index in [0..window.twitters.length] 
       p_material = new THREE.MeshBasicMaterial(
         map:textures[Math.floor( Math.random() * afterArray.length) + promiseArray.length]
         overdraw:true
@@ -152,6 +152,7 @@ $ ->
       py = Math.random() * 1000 - 500
       pz = Math.random() * 1000 - 500
       particle.position.set( px, py, pz)
+      particle._src = window.twitters[index]
       scene.add(particle)
       targetList.push particle
 
