@@ -4,5 +4,6 @@
 
 $ ->
   if $('#top')[0]
+    $('body').css 'position','absolute'
     $('body').tubular 
       videoId: 'v6shurn2W0w'
