@@ -1,1 +1,7 @@
-#container
+
+#container(style="position:absolute;float:right;")
+  #pMENU(style="visibility:hidden;background-color:yellow;width:100px;")test
+
+:javascript
+  var twitters = #{raw @twitters.to_json};
+  var nevers = #{raw @nevers.to_json};
