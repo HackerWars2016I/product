@@ -11,7 +11,6 @@ class CreateNevers < ActiveRecord::Migration
       t.integer :pos_z      
 
       t.timestamps null: false
-      add_index :nevers, :id
     end
   end
 end

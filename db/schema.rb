@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160514073437) do
+ActiveRecord::Schema.define(version: 20160514192938) do
 
   create_table "ch2s", force: :cascade do |t|
     t.string   "post"
@@ -35,6 +35,18 @@ ActiveRecord::Schema.define(version: 20160514073437) do
   end
 
   create_table "sters", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "tweets", force: :cascade do |t|
+    t.text     "post"
+    t.string   "user"
+    t.integer  "fav"
+    t.integer  "rt"
+    t.integer  "pos_x"
+    t.integer  "pos_y"
+    t.integer  "pos_z"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
