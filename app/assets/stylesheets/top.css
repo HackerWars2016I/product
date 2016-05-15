@@ -1,0 +1,42 @@
+body{
+
+}
+header{
+	float:left;
+	width:200px;
+	height:auto;
+	margin-top:10px;
+	margin-left:10px;
+}
+
+h2{
+	padding-top:100px;
+	font-size: 40px;
+	text-align: center;
+}
+
+#contents{
+	text-align: center;
+	padding-top:100px;
+}
+
+.navbar-search {
+    position: relative;
+    padding-top:300px;
+    text-align: center;
+}
+ 
+.navbar-search .search-query {
+    padding-left: 29px;
+}
+ 
+.navbar-search .icon-search {
+    position: absolute;
+    top: 7px;
+    left: 11px;
+}
+ 
+ 
+.navbar-search .search-query:focus, .navbar-search .search-query.focused {
+    padding-left: 30px;
+}​	
