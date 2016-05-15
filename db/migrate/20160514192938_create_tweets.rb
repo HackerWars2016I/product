@@ -10,7 +10,6 @@ class CreateTweets < ActiveRecord::Migration
       t.integer :pos_z
 
       t.timestamps null: false
-      add_index :tweets, :id
     end
   end
 end
